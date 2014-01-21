@@ -13,119 +13,158 @@ public class UnitTestUtils {
 	*
 	*	@return UnitTestUtils is current class.
 	*/
-	public UnitTestUtils getAccount() {
-		obj = new WaveAccount().getRecord();
-		
-		return this;
+	public WaveAccount createAccount() {
+		return new WaveAccount();
 	}
 	
 	/**
-	* @description Add field to object via field name and value.
+	*	@description Create and return Account record with input field values.
 	*
-	*	@param p_name is field name.
-	*	@param p_value is field value.
-	*	@return UnitTestUtils is current class.
+	*	@param p_fieldValue is a map with field values.
+	*	@return WaveAccount is a template class.
 	*/
-	public UnitTestUtils addField(String p_name, Object p_value) {
-		obj.addField(p_name, p_value);
-		
-		return this;
+	public WaveAccount createAccount(Map<String, Object> p_fieldValue) {
+		return new WaveAccount(p_fieldValue);
 	}
 	
 	/**
-	* @description Add field to object via field name and value.
-	*
-	*	@param p_fieldMap is a map with field values.
-	*	@return UnitTestUtils is current class.
-	*/
-	public UnitTestUtils addField(Map<String, Object> p_fieldMap) {
-		obj.addFields(p_fieldMap);
-		
-		return this;
-	}
-	
-	/**
-	*	@description 
-	*
-	*	@param p_relationship is name of relationship of parent object.
-	*	@return sObject is parent object from current object;
-	*/
-	public sObject getParent(String p_relationship) {
-		String v_objectName = obj.record.getSObjectType().getDescribe().getName();
-		
-		//
-		return getsObject(v_objectName, p_relationship);
-	}
-	
-	/**
-	*	@description 
-	*
-	*	@param p_objectId is parent object id;
-	*	@param p_relationship is name of relationship of parent object.
-	*	@return sObject is parent object from current object;
-	*/
-	public sObject getParent(Id p_objectId, String p_relationship) {
-		//
-		if (obj.sObjectMap.containsKey(p_objectId)) {
-			sObject v_sObject = obj.sObjectMap.get(p_objectId);
-			String v_objectName = v_sObject.getSObjectType().getDescribe().getName();
-			
-			//
-			return getsObject(v_objectName, p_relationship);
-		}
-		
-		return null;
-	}
-	
-	/**
-	*	@description Get sObject parent record by relationship value.
-	*
-	*	@param p_objectName is name of object that parent record we will return.
-	*	@param p_relationship is name of relationship for getting parent record.
-	*	@return sObject is parent record.
-	*/
-	private sObject getsObject(String p_objectName, String p_relationship) {
-		if (globalSObjectsMap.containsKey(p_objectName)) {
-			Map <String, Schema.SObjectField> v_fieldMap = globalSObjectsMap.get(p_objectName).
-					getDescribe().fields.getMap();
-			
-			//
-			Schema.SObjectField v_field = v_fieldMap.get(p_relationship);
-			if (v_field != null && v_field.getDescribe().isIdLookup()) {
-				return obj.sObjectMap.get(v_field.getDescribe().getName());
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-	*	@description Insert and return record.
+	*	@description Create and return Opportunity record.
 	*
 	*	@return UnitTestUtils is current class.
 	*/
-	public UnitTestUtils insertRecord() {
-		obj.insertRecord();
-		
-		return this;
+	public WaveOpportunity createOpportunity() {
+		return new WaveOpportunity();
 	}
 	
 	/**
-	*	@description Custom method for getting any type of objects.
+	*	@description Create and return Opportunity record with input field values.
+	*
+	*	@param p_fieldValue is a map with field values.
+	*	@return WaveOpportunity is a template class.
+	*/
+	public WaveOpportunity createOpportunity(Map<String, Object> p_fieldValue) {
+		return new WaveOpportunity(p_fieldValue);
+	}
+	
+	/**
+	*	@description Create and return Contact record.
+	*
+	*	@return UnitTestUtils is current class.
+	*/
+	public WaveContact createContact() {
+		return new WaveContact();
+	}
+	
+	/**
+	*	@description Create and return Contact record with input field values.
+	*
+	*	@param p_fieldValue is a map with field values.
+	*	@return WaveContact is a template class.
+	*/
+	public WaveContact createContact(Map<String, Object> p_fieldValue) {
+		return new WaveContact(p_fieldValue);
+	}
+	
+	/**
+	*	@description Create and return Lead record.
+	*
+	*	@return UnitTestUtils is current class.
+	*/
+	public WaveLead createLead() {
+		return new WaveLead();
+	}
+	
+	/**
+	*	@description Create and return Lead record with input field values.
+	*
+	*	@param p_fieldValue is a map with field values.
+	*	@return WaveLead is a template class.
+	*/
+	public WaveLead createLead(Map<String, Object> p_fieldValue) {
+		return new WaveLead(p_fieldValue);
+	}
+	
+	/**
+	*	@description Create and return Contract record.
+	*
+	*	@return UnitTestUtils is current class.
+	*/
+	public WaveContract createContract() {
+		return new WaveContract();
+	}
+	
+	/**
+	*	@description Create and return Contract record with input field values.
+	*
+	*	@param p_fieldValue is a map with field values.
+	*	@return WaveContract is a template class.
+	*/
+	public WaveContract createContract(Map<String, Object> p_fieldValue) {
+		return new WaveContract(p_fieldValue);
+	}
+	
+	/**
+	*	@description Create and return Case record.
+	*
+	*	@return UnitTestUtils is current class.
+	*/
+	public WaveCase createCase() {
+		return new WaveCase();
+	}
+	
+	/**
+	*	@description Create and return Case record with input field values.
+	*
+	*	@param p_fieldValue is a map with field values.
+	*	@return WaveCase is a template class.
+	*/
+	public WaveCase createCase(Map<String, Object> p_fieldValue) {
+		return new WaveCase(p_fieldValue);
+	}
+	
+	/**
+	*	@description Create and return Product2 record.
+	*
+	*	@return UnitTestUtils is current class.
+	*/
+	public WaveProduct2 createProduct2() {
+		return new WaveProduct2();
+	}
+	
+	/**
+	*	@description Create and return Product2 record with input field values.
+	*
+	*	@param p_fieldValue is a map with field values.
+	*	@return WaveProduct2 is a template class.
+	*/
+	public WaveProduct2 createProduct2(Map<String, Object> p_fieldValue) {
+		return new WaveProduct2(p_fieldValue);
+	}
+	
+	/**
+	*	@description Custom method for creating sObject record.
 	*
 	*	@param p_objectName is name of object.
 	*	@return UnitTestUtils is current class.
 	*/
-	public sObject getRecord(String p_objectName) {
+	public WaveObject createRecord(String p_objectName) {
 		if (p_objectName == 'Account') {
-			obj = new WaveAccount().getRecord();
+			return new WaveAccount();
 		} else if (p_objectName == 'Opportunity') {
-			obj = new WaveOpportunity().getRecord();
+			return new WaveOpportunity();
+		} else if (p_objectName == 'Contact') {
+			return new WaveContact();
+		} else if (p_objectName == 'Lead') {
+			return new WaveLead();
+		} else if (p_objectName == 'Contract') {
+			return new WaveContract();
+		} else if (p_objectName == 'Case') {
+			return new WaveCase();
+		} else if (p_objectName == 'Product2') {
+			return new WaveProduct2();
 		} else {
-			obj = new WaveObject(p_objectName).getRecord();
+			return new WaveObject(p_objectName);
 		}
-		
-		return obj.record;
 	}
 	
 	/**
@@ -135,6 +174,18 @@ public class UnitTestUtils {
 		public WaveAccount() {
 			super('Account');
 		}
+		
+		public WaveAccount(Map<String, Object> p_fieldValueMap) {
+			super('Account', p_fieldValueMap);
+		}
+		
+		public Account getRecord() {
+			return (Account)super.getSObjectRecord();
+		}
+		
+		public Account insertRecord() {
+			return (Account)super.insertSObjectRecord();
+		}
 	}
 	
 	/**
@@ -143,6 +194,123 @@ public class UnitTestUtils {
 	public class WaveOpportunity extends WaveObject {
 		public WaveOpportunity() {
 			super('Opportunity');
+		}
+		
+		public WaveOpportunity(Map<String, Object> p_fieldValueMap) {
+			super('Opportunity', p_fieldValueMap);
+		}
+		
+		public Opportunity getRecord() {
+			return (Opportunity)super.getSObjectRecord();
+		}
+		
+		public Opportunity insertRecord() {
+			return (Opportunity)super.insertSObjectRecord();
+		}
+	}
+	
+	/**
+	*	@description Extend class from WaveObject for Contact object
+	*/
+	public class WaveContact extends WaveObject {
+		public WaveContact() {
+			super('Contact');
+		}
+		
+		public WaveContact(Map<String, Object> p_fieldValueMap) {
+			super('Contact', p_fieldValueMap);
+		}
+		
+		public Contact getRecord() {
+			return (Contact)super.getSObjectRecord();
+		}
+		
+		public Contact insertRecord() {
+			return (Contact)super.insertSObjectRecord();
+		}
+	}
+	
+	/**
+	*	@description Extend class from WaveObject for Lead object
+	*/
+	public class WaveLead extends WaveObject {
+		public WaveLead() {
+			super('Lead');
+		}
+		
+		public WaveLead(Map<String, Object> p_fieldValueMap) {
+			super('Lead', p_fieldValueMap);
+		}
+		
+		public Lead getRecord() {
+			return (Lead)super.getSObjectRecord();
+		}
+		
+		public Lead insertRecord() {
+			return (Lead)super.insertSObjectRecord();
+		}
+	}
+	
+	/**
+	*	@description Extend class from WaveObject for Case object
+	*/
+	public class WaveCase extends WaveObject {
+		public WaveCase() {
+			super('Case');
+		}
+		
+		public WaveCase(Map<String, Object> p_fieldValueMap) {
+			super('Case', p_fieldValueMap);
+		}
+		
+		public Case getRecord() {
+			return (Case)super.getSObjectRecord();
+		}
+		
+		public Case insertRecord() {
+			return (Case)super.insertSObjectRecord();
+		}
+	}
+	
+	/**
+	*	@description Extend class from WaveObject for Contract object
+	*/
+	public class WaveContract extends WaveObject {
+		public WaveContract() {
+			super('Contract');
+		}
+		
+		public WaveContract(Map<String, Object> p_fieldValueMap) {
+			super('Contract', p_fieldValueMap);
+		}
+		
+		public Contract getRecord() {
+			return (Contract)super.getSObjectRecord();
+		}
+		
+		public Contract insertRecord() {
+			return (Contract)super.insertSObjectRecord();
+		}
+	}
+	
+	/**
+	*	@description Extend class from WaveObject for Product2 object
+	*/
+	public class WaveProduct2 extends WaveObject {
+		public WaveProduct2() {
+			super('Product2');
+		}
+		
+		public WaveProduct2(Map<String, Object> p_fieldValueMap) {
+			super('Product2', p_fieldValueMap);
+		}
+		
+		public Product2 getRecord() {
+			return (Product2)super.getSObjectRecord();
+		}
+		
+		public Product2 insertRecord() {
+			return (Product2)super.insertSObjectRecord();
 		}
 	}
 }
