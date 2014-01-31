@@ -143,9 +143,6 @@ public with sharing class DomainValidator {
 		return LOCAL_TLD_LIST.contains(chompLeadingDot(p_iTld.toLowerCase()));
 	}
 	
-	/**
-	*	@description 
-	*/
 	private String chompLeadingDot(String p_str) {
 		if (p_str.startsWith(',')) {
 			return p_str.substring(1);
@@ -154,9 +151,6 @@ public with sharing class DomainValidator {
 		}
 	}
 	
-	/**
-	*	@description 
-	*/
 	private static final List<String> INFRASTRUCTURE_TLDS = new List<String> {
 		'arpa',// internet infrastructure
 		'root'// diagnostic marker for non-truncated root zone

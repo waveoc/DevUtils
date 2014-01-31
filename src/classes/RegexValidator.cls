@@ -7,18 +7,7 @@ public with sharing class RegexValidator {
 	*	@param regex The regular expression this validator will validate against
 	*/
 	public RegexValidator(String p_regex) {
-		this(p_regex, true);
-	}
-
-	/**
-	*	@description Construct a validator for a single regular expression with the specified case sensitivity.
-	*
-	*	@param regex The regular expression this validator will validate against
-	*	@param caseSensitive when <code>true</code> matching is <i>case sensitive</i>, 
-	*		otherwise matching is <i>case in-sensitive</i>
-	*/
-	public RegexValidator(String p_regex, Boolean p_caseSensitive) {
-		this(new List<String> {p_regex}, p_caseSensitive);
+		this(new List<String> {p_regex});
 	}
 	
 	/**
@@ -28,18 +17,6 @@ public with sharing class RegexValidator {
 	*	@param regexs The set of regular expressions this validator will validate against
 	*/
 	public RegexValidator(List<String> p_regexs) {
-		this(p_regexs, true);
-	}
-	
-	/**
-	*	@description Construct a validator that matches any one of the set of regular
-	*			expressions with the specified case sensitivity.
-	*
-	*	@param regexs The set of regular expressions this validator will validate against
-	*	@param caseSensitive when <code>true</code> matching is <i>case
-	*			sensitive</i>, otherwise matching is <i>case in-sensitive</i>
-	*/
-	public RegexValidator(List<String> p_regexs, Boolean p_caseSensitive) {
 		if (p_regexs == null || p_regexs.size() == 0) {
 			throw new IllegalArgumentException('Regular expressions are missing');
 		}
