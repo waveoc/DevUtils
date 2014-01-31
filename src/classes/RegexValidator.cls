@@ -1,5 +1,5 @@
 public with sharing class RegexValidator {
-	private final Pattern[] patterns;
+	private final List<Pattern> patterns;
 
 	/**
 	*	@description Construct a <i>case sensitive</i> validator for a single regular expression.
@@ -17,8 +17,8 @@ public with sharing class RegexValidator {
 	*	@param caseSensitive when <code>true</code> matching is <i>case sensitive</i>, 
 	*		otherwise matching is <i>case in-sensitive</i>
 	*/
-	public RegexValidator(String p_regex, boolean p_caseSensitive) {
-		this(new String[] {p_regex}, p_caseSensitive);
+	public RegexValidator(String p_regex, Boolean p_caseSensitive) {
+		this(new List<String> {p_regex}, p_caseSensitive);
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public with sharing class RegexValidator {
 	*
 	*	@param regexs The set of regular expressions this validator will validate against
 	*/
-	public RegexValidator(String[] p_regexs) {
+	public RegexValidator(List<String> p_regexs) {
 		this(p_regexs, true);
 	}
 	
@@ -39,7 +39,7 @@ public with sharing class RegexValidator {
 	*	@param caseSensitive when <code>true</code> matching is <i>case
 	*			sensitive</i>, otherwise matching is <i>case in-sensitive</i>
 	*/
-	public RegexValidator(String[] p_regexs, boolean p_caseSensitive) {
+	public RegexValidator(List<String> p_regexs, Boolean p_caseSensitive) {
 		if (p_regexs == null || p_regexs.size() == 0) {
 			throw new IllegalArgumentException('Regular expressions are missing');
 		}
@@ -59,7 +59,7 @@ public with sharing class RegexValidator {
 	*	@param value The value to validate.
 	*	@return <code>true</code> if the value is valid otherwise <code>false</code>.
 	*/
-	public boolean isValid(String p_value) {
+	public Boolean isValid(String p_value) {
 		if (p_value == null) {
 			return false;
 		}
@@ -79,7 +79,7 @@ public with sharing class RegexValidator {
 	*	@param value The value to validate.
 	*	@return String array of the <i>groups</i> matched if valid or <code>null</code> if invalid
 	*/
-	public String[] match(String p_value) {
+	public List<String> match(String p_value) {
 		if (p_value == null) {
 			return null;
 		}
@@ -88,7 +88,7 @@ public with sharing class RegexValidator {
 			Matcher v_matcher = patterns.get(i).matcher(p_value);
 			if (v_matcher.matches()) {
 				Integer v_count = v_matcher.groupCount();
-				String[] v_groups = new String[v_count];
+				List<String> v_groups = new String[v_count];
 				for (Integer j = 0; j < v_count; j++) {
 					v_groups.set(j, v_matcher.group(j+1));
 				}
@@ -101,50 +101,56 @@ public with sharing class RegexValidator {
 	}
 	
 	/**
-	* Validate a value against the set of regular expressions
-	* returning a String value of the aggregated groups.
+	*	@description Validate a value against the set of regular expressions 
+	*			returning a String value of the aggregated groups.
 	*
-	* @param value The value to validate.
-	* @return Aggregated String value comprised of the
-	* <i>groups</i> matched if valid or <code>null</code> if invalid
+	*	@param value The value to validate.
+	*	@return Aggregated String value comprised of the 
+	*			<i>groups</i> matched if valid or <code>null</code> if invalid
 	*/
-	public String validate(String value) {
-		if (value == null) {
+	public String validate(String p_value) {
+		if (p_value == null) {
 			return null;
 		}
-		for (Integer i = 0; i < patterns.size(); i++) {
-			Matcher matcher = patterns[i].matcher(value);
-			if (matcher.matches()) {
-				Integer count = matcher.groupCount();
-				if (count == 1) {
-					return matcher.group(1);
+		
+		for (Integer i = 0; i < this.patterns.size(); i++) {
+			Matcher v_matcher = this.patterns.get(i).matcher(p_value);
+			if (v_matcher.matches()) {
+				Integer v_count = v_matcher.groupCount();
+				
+				if (v_count == 1) {
+					return v_matcher.group(1);
 				}
-				String buffer = '';
-				for (Integer j = 0; j < count; j++) {
-					String component = matcher.group(j+1);
-					if (component != null) {
-						buffer += component;
+				
+				String v_buffer = '';
+				
+				for (Integer j = 0; j < v_count; j++) {
+					String v_component = v_matcher.group(j + 1);
+					
+					if (v_component != null) {
+						v_buffer += v_component;
 					}
 				}
-				return buffer;
+				
+				return v_buffer;
 			}
 		}
+		
 		return null;
 	}
 
 	/**
-	* Provide a String representation of this validator.
-	* @return A String representation of this validator
+	*	@description Provide a String representation of this validator.
+	*
+	*	@return A String representation of this validator
 	*/
 	public override String toString() {
-		String buffer = 'RegexValidator{';
-		for (Integer i = 0; i < patterns.size(); i++) {
-			if (i > 0) {
-				buffer += ',';
-			}
-			buffer += patterns[i].pattern();
+		String v_buffer = 'RegexValidator{';
+		
+		for (Integer i = 0; i < this.patterns.size(); i++) {
+			v_buffer += ',' + patterns.get(i).pattern();
 		}
-		buffer += '}';
-		return buffer;
+		
+		return v_buffer.substring(1) + '}';
 	}
 }
