@@ -1,7 +1,7 @@
 /**
-*	@description Test on creating a WaveObject.
+* @description Test on creating a WaveObject.
 *
-*	@author Maksim Fesenko
+* @author Maksim Fesenko
 */
 @isTest
 private class WaveObjectTest {

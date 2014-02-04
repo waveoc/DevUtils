@@ -1,7 +1,7 @@
 /**
-*	@description Test Domain Validator.
+* @description Test Domain Validator.
 *
-*	@author Maksim Fesenko
+* @author Maksim Fesenko
 */
 @isTest
 public class DomainValidatorTest {

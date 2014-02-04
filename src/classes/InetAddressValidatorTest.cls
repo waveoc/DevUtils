@@ -1,5 +1,5 @@
 /**
-*	@description 
+*	@description Test for internet address validator.
 *
 *	@author Maksim Fesenko
 */

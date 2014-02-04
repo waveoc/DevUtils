@@ -1,47 +1,52 @@
+/**
+* @description URL validator.
+*
+* @author Maksim Fesenko
+*/
 public with sharing class URLValidator {
 	/**
-	*	@description Allows all validly formatted schemes to pass validation instead of 
-	*			supplying a set of valid schemes.
+	* @description Allows all validly formatted schemes to pass validation instead of 
+	* supplying a set of valid schemes.
 	*/
 	public static final long ALLOW_ALL_SCHEMES = 1 << 0;
 
 	/**
-	*	@description Allow two slashes in the path component of the URL.
+	* @description Allow two slashes in the path component of the URL.
 	*/
 	public static final long ALLOW_2_SLASHES = 1 << 1;
 
 	/**
-	*	@description Enabling this options disallows any URL fragments.
+	* @description Enabling this options disallows any URL fragments.
 	*/
 	public static final long NO_FRAGMENTS = 1 << 2;
 
 	/**
-	*	@description Allow local URLs, such as http://localhost/ or http://machine/ .
-	*			This enables a broad-brush check, for complex local machine name 
-	*			validation requirements you should create your validator with 
-	*			a {@link RegexValidator} instead ({@link #UrlValidator(RegexValidator, long)})
+	* @description Allow local URLs, such as http://localhost/ or http://machine/ .
+	* 		This enables a broad-brush check, for complex local machine name 
+	* 		validation requirements you should create your validator with 
+	* 		a {@link RegexValidator} instead ({@link #UrlValidator(RegexValidator, long)})
 	*/
 	public static final long ALLOW_LOCAL_URLS = 1 << 3;
 
 	/**
-	*	@description Drop numeric, and  '+-.' for now
+	* @description Drop numeric, and  '+-.' for now
 	*/
 	private static final String AUTHORITY_CHARS_REGEX = '\\p{Alnum}\\-\\.';
 
 	/**
-	*	@description This expression derived/taken from the BNF for URI (RFC2396).
+	* @description This expression derived/taken from the BNF for URI (RFC2396).
 	*/
 	private static final String URL_REGEX = '^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?';
 	
 	private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
 	/**
-	*	@description Schema/Protocol (ie. http:, ftp:, file:, etc).
+	* @description Schema/Protocol (ie. http:, ftp:, file:, etc).
 	*/
 	private static final Integer PARSE_URL_SCHEME = 2;
 
 	/**
-	*	@description Includes hostname/ip and port number.
+	* @description Includes hostname/ip and port number.
 	*/
 	private static final Integer PARSE_URL_AUTHORITY = 4;
 
@@ -52,7 +57,7 @@ public with sharing class URLValidator {
 	private static final Integer PARSE_URL_FRAGMENT = 9;
 
 	/**
-	*	@description Protocol (ie. http:, ftp:,https:).
+	* @description Protocol (ie. http:, ftp:,https:).
 	*/
 	private static final String SCHEME_REGEX = '^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*';
 	private static final Pattern SCHEME_PATTERN = Pattern.compile(SCHEME_REGEX);
@@ -66,7 +71,7 @@ public with sharing class URLValidator {
 	private static final Integer PARSE_AUTHORITY_PORT = 2;
 
 	/**
-	*	@description Should always be empty.
+	* @description Should always be empty.
 	*/
 	private static final Integer PARSE_AUTHORITY_EXTRA = 3;
 
@@ -83,99 +88,99 @@ public with sharing class URLValidator {
 	private static final Pattern PORT_PATTERN = Pattern.compile(PORT_REGEX);
 
 	/**
-	*	@description Holds the set of current validation options.
+	* @description Holds the set of current validation options.
 	*/
 	private final long options;
 
 	/**
-	*	@description The set of schemes that are allowed to be in a URL.
+	* @description The set of schemes that are allowed to be in a URL.
 	*/
 	private final Set<String> allowedSchemes;
 
 	/**
-	*	@description Regular expressions used to manually validate authorities if IANA 
-	*			domain name validation isn't desired.
+	* @description Regular expressions used to manually validate authorities if IANA 
+	* 		domain name validation isn't desired.
 	*/
 	private final RegexValidator authorityValidator;
 
 	/**
-	*	@description If no schemes are provided, default to this set.
+	* @description If no schemes are provided, default to this set.
 	*/
 	private static final List<String> DEFAULT_SCHEMES = new List<String> {'http', 'https', 'ftp'};
 
 	/**
-	*	@description Singleton instance of this class with default schemes and options.
+	* @description Singleton instance of this class with default schemes and options.
 	*/
 	private static final UrlValidator DEFAULT_URL_VALIDATOR = new UrlValidator();
 
 	/**
-	*	@description Returns the singleton instance of this class with default schemes and options.
-	*	@return singleton instance with default schemes and options
+	* @description Returns the singleton instance of this class with default schemes and options.
+	* @return singleton instance with default schemes and options
 	*/
 	public static UrlValidator getInstance() {
 		return DEFAULT_URL_VALIDATOR;
 	}
 
 	/**
-	*	@description Create a UrlValidator with default properties.
+	* @description Create a UrlValidator with default properties.
 	*/
 	public UrlValidator() {
 		this(new List<String>());
 	}
 
 	/**
-	*	@description Behavior of validation is modified by passing in several strings options:
-	*	@param schemes Pass in one or more url schemes to consider valid, passing in
-	*		a null will default to 'http,https,ftp' being valid.
-	*		If a non-null schemes is specified then all valid schemes must
-	*		be specified. Setting the ALLOW_ALL_SCHEMES option will
-	*		ignore the contents of schemes.
+	* @description Behavior of validation is modified by passing in several strings options:
+	* @param schemes Pass in one or more url schemes to consider valid, passing in
+	* 	a null will default to 'http,https,ftp' being valid.
+	* 	If a non-null schemes is specified then all valid schemes must
+	* 	be specified. Setting the ALLOW_ALL_SCHEMES option will
+	* 	ignore the contents of schemes.
 	*/
 	public UrlValidator(List<String> schemes) {
 		this(schemes, 0L);
 	}
 
 	/**
-	*	@description Initialize a UrlValidator with the given validation options.
-	*	@param options The options should be set using the public constants declared in
-	*			this class.  To set multiple options you simply add them together.  For example,
-	*			ALLOW_2_SLASHES + NO_FRAGMENTS enables both of those options.
+	* @description Initialize a UrlValidator with the given validation options.
+	* @param options The options should be set using the public constants declared in
+	* 		this class.  To set multiple options you simply add them together.  For example,
+	* 		ALLOW_2_SLASHES + NO_FRAGMENTS enables both of those options.
 	*/
 	public UrlValidator(long p_options) {
 		this(null, null, p_options);
 	}
 
 	/**
-	*	@description Behavior of validation is modified by passing in options:
-	*	@param schemes The set of valid schemes.
-	*	@param options The options should be set using the public constants declared in
-	*			this class.  To set multiple options you simply add them together.  For example,
-	*			ALLOW_2_SLASHES + NO_FRAGMENTS enables both of those options.
+	* @description Behavior of validation is modified by passing in options:
+	* @param schemes The set of valid schemes.
+	* @param options The options should be set using the public constants declared in
+	* 		this class.  To set multiple options you simply add them together.  For example,
+	* 		ALLOW_2_SLASHES + NO_FRAGMENTS enables both of those options.
 	*/
 	public UrlValidator(List<String> p_schemes, long p_options) {
 		this(p_schemes, null, p_options);
 	}
 
 	/**
-	*	@description Initialize a UrlValidator with the given validation options.
-	*	@param authorityValidator Regular expression validator used to validate the authority part
-	*	@param options Validation options. Set using the public constants of this class.
-	*			To set multiple options, simply add them together:
-	*			<p><code>ALLOW_2_SLASHES + NO_FRAGMENTS</code></p>
-	*			enables both of those options.
+	* @description Initialize a UrlValidator with the given validation options.
+	* @param authorityValidator Regular expression validator used to validate the authority part
+	* @param options Validation options. Set using the public constants of this class.
+	* 		To set multiple options, simply add them together:
+	* 		<p><code>ALLOW_2_SLASHES + NO_FRAGMENTS</code></p>
+	* 		enables both of those options.
 	*/
 	public UrlValidator(RegexValidator p_authorityValidator, long p_options) {
 		this(null, p_authorityValidator, p_options);
 	}
 
 	/**
-	*	@description Customizable constructor. Validation behavior is modifed by passing in options.
-	*	@param schemes the set of valid schemes
-	*	@param authorityValidator Regular expression validator used to validate the authority part
-	*	@param options Validation options. Set using the public constants of this class.
-	*			To set multiple options, simply add them together:
-	*			<p><code>ALLOW_2_SLASHES + NO_FRAGMENTS</code></p>
-	*			enables both of those options.
+	* @description Customizable constructor. Validation behavior is modifed by passing in options.
+	* @param schemes the set of valid schemes
+	* @param authorityValidator Regular expression validator used to validate the authority part
+	* @param options Validation options. Set using the public constants of this class.
+	* 		To set multiple options, simply add them together:
+	* 		<p><code>ALLOW_2_SLASHES + NO_FRAGMENTS</code></p>
+	* 		enables both of those options.
 	*/
 	public UrlValidator(List<String> p_schemes, RegexValidator p_authorityValidator, long p_options) {
 		this.options = p_options;
@@ -194,11 +199,11 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@description Checks if a field has a valid url address.
+	* @description Checks if a field has a valid url address.
 	*
-	*	@param value The value validation is being performed on.  A <code>null</code>
-	*			value is considered invalid.
-	*	@return true if the url is valid.
+	* @param value The value validation is being performed on.  A <code>null</code>
+	* 		value is considered invalid.
+	* @return true if the url is valid.
 	*/
 	public boolean isValid(String p_value) {
 		if (p_value == null) {
@@ -246,10 +251,10 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@descriptin Validate scheme. If schemes[] was initialized to a non null, 
-	*			then only those scheme's are allowed.  Note this is slightly different than for the constructor.
-	*	@param scheme The scheme to validate.  A <code>null</code> value is considered invalid.
-	*	@return true if valid.
+	* @descriptin Validate scheme. If schemes[] was initialized to a non null, 
+	* 		then only those scheme's are allowed.  Note this is slightly different than for the constructor.
+	* @param scheme The scheme to validate.  A <code>null</code> value is considered invalid.
+	* @return true if valid.
 	*/
 	public boolean isValidScheme(String p_scheme) {
 		if (p_scheme == null) {
@@ -270,10 +275,10 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@description Returns true if the authority is properly formatted.  An authority is the combination
-	*			of hostname and port.  A <code>null</code> authority value is considered invalid.
-	*	@param authority Authority value to validate.
-	*	@return true if authority (hostname and port) is valid.
+	* @description Returns true if the authority is properly formatted.  An authority is the combination
+	* 		of hostname and port.  A <code>null</code> authority value is considered invalid.
+	* @param authority Authority value to validate.
+	* @return true if authority (hostname and port) is valid.
 	*/
 	public boolean isValidAuthority(String p_authority) {
 		if (p_authority == null) {
@@ -321,10 +326,10 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@description Returns true if the path is valid.  A <code>null</code> value is considered invalid.
+	* @description Returns true if the path is valid.  A <code>null</code> value is considered invalid.
 	*
-	*	@param path Path value to validate.
-	*	@return true if path is valid.
+	* @param path Path value to validate.
+	* @return true if path is valid.
 	*/
 	public boolean isValidPath(String p_path) {
 		if (p_path == null) {
@@ -352,10 +357,10 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@description Returns true if the query is null or it's a properly formatted query string.
+	* @description Returns true if the query is null or it's a properly formatted query string.
 	*
-	*	@param query Query value to validate.
-	*	@return true if query is valid.
+	* @param query Query value to validate.
+	* @return true if query is valid.
 	*/
 	public boolean isValidQuery(String p_query) {
 		if (p_query == null) {
@@ -366,10 +371,10 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@description Returns true if the given fragment is null or fragments are allowed.
+	* @description Returns true if the given fragment is null or fragments are allowed.
 	*
-	*	@param fragment Fragment value to validate.
-	*	@return true if fragment is valid.
+	* @param fragment Fragment value to validate.
+	* @return true if fragment is valid.
 	*/
 	public boolean isValidFragment(String p_fragment) {
 		if (p_fragment == null) {
@@ -380,11 +385,11 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@description Returns the number of times the token appears in the target.
+	* @description Returns the number of times the token appears in the target.
 	*
-	*	@param token Token value to be counted.
-	*	@param target Target value to count tokens in.
-	*	@return the number of tokens.
+	* @param token Token value to be counted.
+	* @param target Target value to count tokens in.
+	* @return the number of tokens.
 	*/
 	public Integer countToken(String p_token, String p_target) {
 		Integer v_tokenIndex = 0;
@@ -401,22 +406,22 @@ public with sharing class URLValidator {
 	}
 	
 	/**
-	*	@description Tests whether the given flag is on.  If the flag is not a power of 2
-	*			(ie. 3) this tests whether the combination of flags is on.
+	* @description Tests whether the given flag is on.  If the flag is not a power of 2
+	* 		(ie. 3) this tests whether the combination of flags is on.
 	*
-	*	@param flag Flag value to check.
-	*	@return whether the specified flag value is on.
+	* @param flag Flag value to check.
+	* @return whether the specified flag value is on.
 	*/
 	private boolean isOn(long p_flag) {
 		return (this.options & p_flag) > 0;
 	}
 	
 	/**
-	*	@description Tests whether the given flag is off.  If the flag is not a power of 2
-	*			(ie. 3) this tests whether the combination of flags is off.
+	* @description Tests whether the given flag is off.  If the flag is not a power of 2
+	* 		(ie. 3) this tests whether the combination of flags is off.
 	*
-	*	@param flag Flag value to check.
-	*	@return whether the specified flag value is off.
+	* @param flag Flag value to check.
+	* @return whether the specified flag value is off.
 	*/
 	private boolean isOff(long p_flag) {
 		return (this.options & p_flag) == 0;

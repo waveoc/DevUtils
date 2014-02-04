@@ -1,3 +1,7 @@
+/**
+* @description Class for domain validator.
+* @auhor Maksim Fesenko
+*/
 public with sharing class DomainValidator {
 	// Regular expression strings for hostnames (derived from RFC2396 and RFC 1123)
 	private static final String DOMAIN_LABEL_REGEX = '\\p{Alnum}(?>[\\p{Alnum}-]*\\p{Alnum})*';
@@ -8,40 +12,40 @@ public with sharing class DomainValidator {
 	private final boolean allowLocal;
 	
 	/**
-	*	@description Singleton instance of this validator, which doesn't consider local addresses as valid.
+	* @description Singleton instance of this validator, which doesn't consider local addresses as valid.
 	*/
 	private static final DomainValidator DOMAIN_VALIDATOR = new DomainValidator(false);
 	
 	/**
-	*	@description Singleton instance of this validator, which does consider local addresses valid.
+	* @description Singleton instance of this validator, which does consider local addresses valid.
 	*/
 	private static final DomainValidator DOMAIN_VALIDATOR_WITH_LOCAL = new DomainValidator(true);
 	
 	/**
-	*	@description RegexValidator for matching domains.
+	* @description RegexValidator for matching domains.
 	*/
 	private final RegexValidator domainRegex = new RegexValidator(DOMAIN_NAME_REGEX);
 	
 	/**
-	*	@description RegexValidator for matching the a local hostname
+	* @description RegexValidator for matching the a local hostname
 	*/
 	private final RegexValidator hostnameRegex = new RegexValidator(DOMAIN_LABEL_REGEX);
 	
 	/**
-	*	@description Returns the singleton instance of this validator. 
-	*		It will not consider local addresses as valid.
+	* @description Returns the singleton instance of this validator. 
+	* 	It will not consider local addresses as valid.
 	*
-	*	@return the singleton instance of this validator
+	* @return the singleton instance of this validator
 	*/
 	public static DomainValidator getInstance() {
 		return DOMAIN_VALIDATOR;
 	}
 	
 	/**
-	*	@description Returns the singleton instance of this validator, with local validation as required.
-	*	
-	*	@param allowLocal Should local addresses be considered valid?
-	*	@return the singleton instance of this validator
+	* @description Returns the singleton instance of this validator, with local validation as required.
+	* 
+	* @param allowLocal Should local addresses be considered valid?
+	* @return the singleton instance of this validator
 	*/
 	public static DomainValidator getInstance(boolean p_allowLocal) {
 		if (p_allowLocal) {
@@ -52,18 +56,18 @@ public with sharing class DomainValidator {
 	}
 	
 	/**
-	*	@description Private constructor.
+	* @description Private constructor.
 	*/
 	private DomainValidator(boolean p_allowLocal) {
 		this.allowLocal = p_allowLocal;
 	}
 	
 	/**
-	*	@description Returns true if the specified <code>String</code> parses 
-	*			as a valid domain name with a recognized top-level domain. The parsing is case-sensitive.
+	* @description Returns true if the specified <code>String</code> parses 
+	* 		as a valid domain name with a recognized top-level domain. The parsing is case-sensitive.
 	*
-	*	@param domain the parameter to check for domain name syntax
-	*	@return true if the parameter is a valid domain name
+	* @param domain the parameter to check for domain name syntax
+	* @return true if the parameter is a valid domain name
 	*/
 	public boolean isValid(String p_domain) {
 		List<String> v_groups = domainRegex.match(p_domain);
@@ -80,12 +84,12 @@ public with sharing class DomainValidator {
 	}
 	
 	/**
-	*	@description Returns true if the specified <code>String</code> matches any 
-	*			IANA-defined top-level domain. Leading dots are ignored if present. 
-	*			The search is case-sensitive.
+	* @description Returns true if the specified <code>String</code> matches any 
+	* 		IANA-defined top-level domain. Leading dots are ignored if present. 
+	* 		The search is case-sensitive.
 	*
-	*	@param tld the parameter to check for TLD status
-	*	@return true if the parameter is a TLD
+	* @param tld the parameter to check for TLD status
+	* @return true if the parameter is a TLD
 	*/
 	public boolean isValidTld(String p_tld) {
 		if (this.allowLocal && isValidLocalTld(p_tld)) {
@@ -96,48 +100,48 @@ public with sharing class DomainValidator {
 	}
 	
 	/**
-	*	@description Returns true if the specified <code>String</code> matches any 
-	*			IANA-defined infrastructure top-level domain. Leading dots are
-	*			ignored if present. The search is case-sensitive.
+	* @description Returns true if the specified <code>String</code> matches any 
+	* 		IANA-defined infrastructure top-level domain. Leading dots are
+	* 		ignored if present. The search is case-sensitive.
 	*
-	*	@param iTld the parameter to check for infrastructure TLD status
-	*	@return true if the parameter is an infrastructure TLD
+	* @param iTld the parameter to check for infrastructure TLD status
+	* @return true if the parameter is an infrastructure TLD
 	*/
 	public boolean isValidInfrastructureTld(String p_iTld) {
 		return INFRASTRUCTURE_TLD_LIST.contains(chompLeadingDot(p_iTld.toLowerCase()));
 	}
 	
 	/**
-	*	@description Returns true if the specified <code>String</code> matches any 
-	*			IANA-defined generic top-level domain. Leading dots are ignored 
-	*			if present. The search is case-sensitive.
+	* @description Returns true if the specified <code>String</code> matches any 
+	* 		IANA-defined generic top-level domain. Leading dots are ignored 
+	* 		if present. The search is case-sensitive.
 	*
-	*	@param gTld the parameter to check for generic TLD status
-	*	@return true if the parameter is a generic TLD
+	* @param gTld the parameter to check for generic TLD status
+	* @return true if the parameter is a generic TLD
 	*/
 	public boolean isValidGenericTld(String p_gTld) {
 		return GENERIC_TLD_LIST.contains(chompLeadingDot(p_gTld.toLowerCase()));
 	}
 	
 	/**
-	*	@description Returns true if the specified <code>String</code> matches any 
-	*			IANA-defined country code top-level domain. Leading dots are
-	*			ignored if present. The search is case-sensitive.
+	* @description Returns true if the specified <code>String</code> matches any 
+	* 		IANA-defined country code top-level domain. Leading dots are
+	* 		ignored if present. The search is case-sensitive.
 	*
-	*	@param ccTld the parameter to check for country code TLD status
-	*	@return true if the parameter is a country code TLD
+	* @param ccTld the parameter to check for country code TLD status
+	* @return true if the parameter is a country code TLD
 	*/
 	public boolean isValidCountryCodeTld(String p_ccTld) {
 		return COUNTRY_CODE_TLD_LIST.contains(chompLeadingDot(p_ccTld.toLowerCase()));
 	}
 	
 	/**
-	*	@description Returns true if the specified <code>String</code> matches any 
-	*			widely used 'local' domains (localhost or localdomain). Leading dots are 
-	*			ignored if present. The search is case-sensitive.
+	* @description Returns true if the specified <code>String</code> matches any 
+	* 		widely used 'local' domains (localhost or localdomain). Leading dots are 
+	* 		ignored if present. The search is case-sensitive.
 	*
-	*	@param iTld the parameter to check for local TLD status
-	*	@return true if the parameter is an local TLD
+	* @param iTld the parameter to check for local TLD status
+	* @return true if the parameter is an local TLD
 	*/
 	public boolean isValidLocalTld(String p_iTld) {
 		return LOCAL_TLD_LIST.contains(chompLeadingDot(p_iTld.toLowerCase()));

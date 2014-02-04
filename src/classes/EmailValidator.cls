@@ -1,3 +1,7 @@
+/**
+* @description Class for email validator.
+* @author Maksim Fesenko
+*/
 public class EmailValidator {
 	private static final String SPECIAL_CHARS = '\\p{Cntrl}\\(\\)<>@,;:\'\\\\\\\"\\.\\[\\]';
 	private static final String VALID_CHARS = '[^\\s' + SPECIAL_CHARS + ']';
@@ -17,29 +21,29 @@ public class EmailValidator {
 	private final Boolean allowLocal;
 
 	/**
-	*	@description Singleton instance of this class, which doesn't consider local addresses as valid.
+	* @description Singleton instance of this class, which doesn't consider local addresses as valid.
 	*/
 	private static final EmailValidator EMAIL_VALIDATOR = new EmailValidator(false);
 	
 	/**
-	*	@description Singleton instance of this class, which does consider local addresses valid.
+	* @description Singleton instance of this class, which does consider local addresses valid.
 	*/
 	private static final EmailValidator EMAIL_VALIDATOR_WITH_LOCAL = new EmailValidator(true);
 	
 	/**
-	*	@description Returns the Singleton instance of this validator.
+	* @description Returns the Singleton instance of this validator.
 	*
-	*	@return singleton instance of this validator.
+	* @return singleton instance of this validator.
 	*/
 	public static EmailValidator getInstance() {
 		return EMAIL_VALIDATOR;
 	}
 	
 	/**
-	*	@description Returns the Singleton instance of this validator, with local validation as required.
+	* @description Returns the Singleton instance of this validator, with local validation as required.
 	*
-	*	@param allowLocal Should local addresses be considered valid?
-	*	@return singleton instance of this validator
+	* @param allowLocal Should local addresses be considered valid?
+	* @return singleton instance of this validator
 	*/
 	public static EmailValidator getInstance(Boolean p_allowLocal) {
 		if (p_allowLocal) {
@@ -50,20 +54,20 @@ public class EmailValidator {
 	}
 	
 	/**
-	*	@description Protected constructor for subclasses to use.
+	* @description Protected constructor for subclasses to use.
 	*
-	*	@param allowLocal Should local addresses be considered valid?
+	* @param allowLocal Should local addresses be considered valid?
 	*/
 	private EmailValidator(Boolean p_allowLocal) {
 		this.allowLocal = p_allowLocal;
 	}
 	
 	/**
-	*	@description Checks if a field has a valid e-mail address.
+	* @description Checks if a field has a valid e-mail address.
 	*
-	*	@param email The value validation is being performed on. 
-	*		A <code>null</code> value is considered invalid.
-	*	@return true if the email address is valid.
+	* @param email The value validation is being performed on. 
+	* 	A <code>null</code> value is considered invalid.
+	* @return true if the email address is valid.
 	*/
 	public Boolean isValid(String p_email) {
 		if (p_email == null) {
@@ -97,10 +101,10 @@ public class EmailValidator {
 	}
 	
 	/**
-	*	@description Returns true if the domain component of an email address is valid.
+	* @description Returns true if the domain component of an email address is valid.
 	*
-	*	@param domain being validated.
-	*	@return true if the email address's domain is valid.
+	* @param domain being validated.
+	* @return true if the email address's domain is valid.
 	*/
 	private Boolean isValidDomain(String p_domain) {
 		// see if domain is an IP address in brackets
@@ -117,10 +121,10 @@ public class EmailValidator {
 	}
 	
 	/**
-	*	@description Returns true if the user component of an email address is valid.
+	* @description Returns true if the user component of an email address is valid.
 	*
-	*	@param user being validated
-	*	@return true if the user name is valid.
+	* @param user being validated
+	* @return true if the user name is valid.
 	*/
 	private Boolean isValidUser(String p_user) {
 		return USER_PATTERN.matcher(p_user).matches();

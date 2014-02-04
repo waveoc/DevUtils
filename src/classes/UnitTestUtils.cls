@@ -1,7 +1,7 @@
 /**
-*	@description Develop tool for creating records for unit test.
+* @description Develop tool for creating records for unit test.
 *
-*	@author Fesenko Maksim
+* @author Fesenko Maksim
 */
 public class UnitTestUtils {
 	private static Map<String, Schema.SObjectType> globalSObjectsMap = Schema.getGlobalDescribe();
@@ -9,143 +9,143 @@ public class UnitTestUtils {
 	private WaveObject obj;
 	
 	/**
-	*	@description Create and return Account record.
+	* @description Create and return Account record.
 	*
-	*	@return UnitTestUtils is current class.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveAccount createAccount() {
 		return new WaveAccount();
 	}
 	
 	/**
-	*	@description Create and return Account record with input field values.
+	* @description Create and return Account record with input field values.
 	*
-	*	@param p_fieldValue is a map with field values.
-	*	@return WaveAccount is a template class.
+	* @param p_fieldValue is a map with field values.
+	* @return WaveAccount is a template class.
 	*/
 	public WaveAccount createAccount(Map<String, Object> p_fieldValue) {
 		return new WaveAccount(p_fieldValue);
 	}
 	
 	/**
-	*	@description Create and return Opportunity record.
+	* @description Create and return Opportunity record.
 	*
-	*	@return UnitTestUtils is current class.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveOpportunity createOpportunity() {
 		return new WaveOpportunity();
 	}
 	
 	/**
-	*	@description Create and return Opportunity record with input field values.
+	* @description Create and return Opportunity record with input field values.
 	*
-	*	@param p_fieldValue is a map with field values.
-	*	@return WaveOpportunity is a template class.
+	* @param p_fieldValue is a map with field values.
+	* @return WaveOpportunity is a template class.
 	*/
 	public WaveOpportunity createOpportunity(Map<String, Object> p_fieldValue) {
 		return new WaveOpportunity(p_fieldValue);
 	}
 	
 	/**
-	*	@description Create and return Contact record.
+	* @description Create and return Contact record.
 	*
-	*	@return UnitTestUtils is current class.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveContact createContact() {
 		return new WaveContact();
 	}
 	
 	/**
-	*	@description Create and return Contact record with input field values.
+	* @description Create and return Contact record with input field values.
 	*
-	*	@param p_fieldValue is a map with field values.
-	*	@return WaveContact is a template class.
+	* @param p_fieldValue is a map with field values.
+	* @return WaveContact is a template class.
 	*/
 	public WaveContact createContact(Map<String, Object> p_fieldValue) {
 		return new WaveContact(p_fieldValue);
 	}
 	
 	/**
-	*	@description Create and return Lead record.
+	* @description Create and return Lead record.
 	*
-	*	@return UnitTestUtils is current class.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveLead createLead() {
 		return new WaveLead();
 	}
 	
 	/**
-	*	@description Create and return Lead record with input field values.
+	* @description Create and return Lead record with input field values.
 	*
-	*	@param p_fieldValue is a map with field values.
-	*	@return WaveLead is a template class.
+	* @param p_fieldValue is a map with field values.
+	* @return WaveLead is a template class.
 	*/
 	public WaveLead createLead(Map<String, Object> p_fieldValue) {
 		return new WaveLead(p_fieldValue);
 	}
 	
 	/**
-	*	@description Create and return Contract record.
+	* @description Create and return Contract record.
 	*
-	*	@return UnitTestUtils is current class.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveContract createContract() {
 		return new WaveContract();
 	}
 	
 	/**
-	*	@description Create and return Contract record with input field values.
+	* @description Create and return Contract record with input field values.
 	*
-	*	@param p_fieldValue is a map with field values.
-	*	@return WaveContract is a template class.
+	* @param p_fieldValue is a map with field values.
+	* @return WaveContract is a template class.
 	*/
 	public WaveContract createContract(Map<String, Object> p_fieldValue) {
 		return new WaveContract(p_fieldValue);
 	}
 	
 	/**
-	*	@description Create and return Case record.
+	* @description Create and return Case record.
 	*
-	*	@return UnitTestUtils is current class.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveCase createCase() {
 		return new WaveCase();
 	}
 	
 	/**
-	*	@description Create and return Case record with input field values.
+	* @description Create and return Case record with input field values.
 	*
-	*	@param p_fieldValue is a map with field values.
-	*	@return WaveCase is a template class.
+	* @param p_fieldValue is a map with field values.
+	* @return WaveCase is a template class.
 	*/
 	public WaveCase createCase(Map<String, Object> p_fieldValue) {
 		return new WaveCase(p_fieldValue);
 	}
 	
 	/**
-	*	@description Create and return Product2 record.
+	* @description Create and return Product2 record.
 	*
-	*	@return UnitTestUtils is current class.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveProduct2 createProduct2() {
 		return new WaveProduct2();
 	}
 	
 	/**
-	*	@description Create and return Product2 record with input field values.
+	* @description Create and return Product2 record with input field values.
 	*
-	*	@param p_fieldValue is a map with field values.
-	*	@return WaveProduct2 is a template class.
+	* @param p_fieldValue is a map with field values.
+	* @return WaveProduct2 is a template class.
 	*/
 	public WaveProduct2 createProduct2(Map<String, Object> p_fieldValue) {
 		return new WaveProduct2(p_fieldValue);
 	}
 	
 	/**
-	*	@description Custom method for creating sObject record.
+	* @description Custom method for creating sObject record.
 	*
-	*	@param p_objectName is name of object.
-	*	@return UnitTestUtils is current class.
+	* @param p_objectName is name of object.
+	* @return UnitTestUtils is current class.
 	*/
 	public WaveObject createRecord(String p_objectName) {
 		if (p_objectName == 'Account') {
@@ -168,7 +168,7 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	*	@description Extend class from WaveObject for Account object
+	* @description Extend class from WaveObject for Account object
 	*/
 	public class WaveAccount extends WaveObject {
 		public WaveAccount() {
@@ -189,7 +189,7 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	*	@description Extend class from WaveObject for Opportunity object
+	* @description Extend class from WaveObject for Opportunity object
 	*/
 	public class WaveOpportunity extends WaveObject {
 		public WaveOpportunity() {
@@ -210,7 +210,7 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	*	@description Extend class from WaveObject for Contact object
+	* @description Extend class from WaveObject for Contact object
 	*/
 	public class WaveContact extends WaveObject {
 		public WaveContact() {
@@ -231,7 +231,7 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	*	@description Extend class from WaveObject for Lead object
+	* @description Extend class from WaveObject for Lead object
 	*/
 	public class WaveLead extends WaveObject {
 		public WaveLead() {
@@ -252,7 +252,7 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	*	@description Extend class from WaveObject for Case object
+	* @description Extend class from WaveObject for Case object
 	*/
 	public class WaveCase extends WaveObject {
 		public WaveCase() {
@@ -273,7 +273,7 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	*	@description Extend class from WaveObject for Contract object
+	* @description Extend class from WaveObject for Contract object
 	*/
 	public class WaveContract extends WaveObject {
 		public WaveContract() {
@@ -294,7 +294,7 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	*	@description Extend class from WaveObject for Product2 object
+	* @description Extend class from WaveObject for Product2 object
 	*/
 	public class WaveProduct2 extends WaveObject {
 		public WaveProduct2() {

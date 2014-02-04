@@ -1,8 +1,13 @@
+/**
+* @description Internet Address validator.
+*
+* @author Maksim Fesenko
+*/
 public class InetAddressValidator {
 	private static final String IPV4_REGEX = '^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$';
 
 	/**
-	*	@description Singleton instance of this class.
+	* @description Singleton instance of this class.
 	*/
 	private static final InetAddressValidator VALIDATOR = new InetAddressValidator();
 
@@ -10,29 +15,29 @@ public class InetAddressValidator {
 	private final RegexValidator ipv4Validator = new RegexValidator(IPV4_REGEX);
 
 	/**
-	*	@description Returns the singleton instance of this validator.
+	* @description Returns the singleton instance of this validator.
 	*
-	*	@return the singleton instance of this validator
+	* @return the singleton instance of this validator
 	*/
 	public static InetAddressValidator getInstance() {
 		return VALIDATOR;
 	}
 
 	/**
-	*	@description Checks if the specified string is a valid IP address.
+	* @description Checks if the specified string is a valid IP address.
 	*
-	*	@param inetAddress the string to validate
-	*	@return true if the string validates as an IP address
+	* @param inetAddress the string to validate
+	* @return true if the string validates as an IP address
 	*/
 	public boolean isValid(String p_inetAddress) {
 		return isValidInet4Address(p_inetAddress);
 	}
 	
 	/**
-	*	@description Validates an IPv4 address. Returns true if valid.
+	* @description Validates an IPv4 address. Returns true if valid.
 	*
-	*	@param inet4Address the IPv4 address to validate
-	*	@return true if the argument contains a valid IPv4 address
+	* @param inet4Address the IPv4 address to validate
+	* @return true if the argument contains a valid IPv4 address
 	*/
 	public boolean isValidInet4Address(String p_inet4Address) {
 		// verify that address conforms to generic IPv4 format

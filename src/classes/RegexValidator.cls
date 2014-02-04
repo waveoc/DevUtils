@@ -1,20 +1,25 @@
+/**
+* @description Regexp validator.
+*
+* @author Maksim Fesenko
+*/
 public with sharing class RegexValidator {
 	private final List<Pattern> patterns;
 
 	/**
-	*	@description Construct a <i>case sensitive</i> validator for a single regular expression.
+	* @description Construct a <i>case sensitive</i> validator for a single regular expression.
 	*
-	*	@param regex The regular expression this validator will validate against
+	* @param regex The regular expression this validator will validate against
 	*/
 	public RegexValidator(String p_regex) {
 		this(new List<String> {p_regex});
 	}
 	
 	/**
-	*	@description Construct a <i>case sensitive</i> validator that matches any one 
-	*			of the set of regular expressions.
+	* @description Construct a <i>case sensitive</i> validator that matches any one 
+	* 		of the set of regular expressions.
 	*
-	*	@param regexs The set of regular expressions this validator will validate against
+	* @param regexs The set of regular expressions this validator will validate against
 	*/
 	public RegexValidator(List<String> p_regexs) {
 		if (p_regexs == null || p_regexs.size() == 0) {
@@ -31,10 +36,10 @@ public with sharing class RegexValidator {
 	}
 	
 	/**
-	*	@description Validate a value against the set of regular expressions.
+	* @description Validate a value against the set of regular expressions.
 	*
-	*	@param value The value to validate.
-	*	@return <code>true</code> if the value is valid otherwise <code>false</code>.
+	* @param value The value to validate.
+	* @return <code>true</code> if the value is valid otherwise <code>false</code>.
 	*/
 	public Boolean isValid(String p_value) {
 		if (p_value == null) {
@@ -51,10 +56,10 @@ public with sharing class RegexValidator {
 	}
 	
 	/**
-	*	@description Validate a value against the set of regular expressions returning the array of matched groups.
+	* @description Validate a value against the set of regular expressions returning the array of matched groups.
 	*
-	*	@param value The value to validate.
-	*	@return String array of the <i>groups</i> matched if valid or <code>null</code> if invalid
+	* @param value The value to validate.
+	* @return String array of the <i>groups</i> matched if valid or <code>null</code> if invalid
 	*/
 	public List<String> match(String p_value) {
 		if (p_value == null) {
@@ -78,12 +83,12 @@ public with sharing class RegexValidator {
 	}
 	
 	/**
-	*	@description Validate a value against the set of regular expressions 
-	*			returning a String value of the aggregated groups.
+	* @description Validate a value against the set of regular expressions 
+	* 		returning a String value of the aggregated groups.
 	*
-	*	@param value The value to validate.
-	*	@return Aggregated String value comprised of the 
-	*			<i>groups</i> matched if valid or <code>null</code> if invalid
+	* @param value The value to validate.
+	* @return Aggregated String value comprised of the 
+	* 		<i>groups</i> matched if valid or <code>null</code> if invalid
 	*/
 	public String validate(String p_value) {
 		if (p_value == null) {
@@ -117,9 +122,9 @@ public with sharing class RegexValidator {
 	}
 
 	/**
-	*	@description Provide a String representation of this validator.
+	* @description Provide a String representation of this validator.
 	*
-	*	@return A String representation of this validator
+	* @return A String representation of this validator
 	*/
 	public override String toString() {
 		String v_buffer = 'RegexValidator{';

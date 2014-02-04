@@ -1,7 +1,7 @@
 /**
-*	@description 
+* @description 
 *
-*	@author Maksim Fesenko
+* @author Maksim Fesenko
 */
 @isTest
 private class RegexValidatorTest {

@@ -1,3 +1,8 @@
+/**
+* @description Main object that can be used as any custom object and also can be overrided.
+*
+* @author Maksim Fesenko
+*/
 public virtual class WaveObject {
 	private static Map<String, Schema.SObjectType> globalSObjectsMap = Schema.getGlobalDescribe();
 	private final Map<String, Object> defaultFieldValueMap = new Map<String, Object> {
@@ -14,44 +19,44 @@ public virtual class WaveObject {
 	public String objectName;
 	public sObject record;
 	
+	/**
+	* @description Empty constructor.
+	*/
 	public WaveObject() {
 	}
 	
 	/**
-	*	@description Constructor with name of object. 
-	*	Create a record of this object with all require fields.
+	* @description Constructor with name of object. 
+	* Create a record of this object with all require fields.
 	*
-	*	@param p_objectName is name of object.
+	* @param p_objectName is name of object.
 	*/
 	public WaveObject(String p_objectName) {
 		this(p_objectName, new Map<String, Object>());
 	}
 	
 	/**
-	*	@description Constructor with name of object. 
-	*	 Create a record of this object with all require fields.
+	* @description Constructor with name of object. 
+	*  Create a record of this object with all require fields.
 	*
-	*	@param p_sObjectType is name of object in SObjectType format.
+	* @param p_sObjectType is name of object in SObjectType format.
 	*/
 	public WaveObject(Schema.SObjectType p_sObjectType) {
 		this(p_sObjectType.getDescribe().getName(), new Map<String, Object>());
 	}
 	
 	/**
-	*	@description Constructor with name of object. 
-	*	 Create a record of this object with all require fields.
-	*
-	*	@param p_sObjectType is name of object in SObjectType format.
-	*	@param p_fieldValues is map with field values.
+	* @description Constructor with name of object. 
+	Create a record of this object with all require fields.
+	* @param p_sObjectType is name of object in SObjectType format.
+	* @param p_fieldValues is map with field values.
 	*/
 	public WaveObject(String p_objectName, Map<String, Object> p_fieldValues) {
 		sObjectMap = new Map<String, sObject>();
 		objectName = p_objectName;
 		record = newSObject(p_objectName);
-	
-		for (Schema.SObjectField v_field : globalSObjectsMap.get(p_objectName)
-				.getDescribe().fields.getMap().values()) {
-			
+		
+		for (Schema.SObjectField v_field : globalSObjectsMap.get(p_objectName).getDescribe().fields.getMap().values()) {
 			//Craete an all require fields
 			Schema.DescribeFieldResult v_resultDescribe = v_field.getDescribe();
 			if ( ! v_resultDescribe.isNillable() && v_resultDescribe.isCreateable()) {
@@ -112,12 +117,9 @@ public virtual class WaveObject {
 						}
 					} else {
 						//Master-detail or require lookup
-						if (v_fieldType.getDescribe().getName() != objectName && 
-								globalSObjectsMap.get(v_fieldType.getDescribe().getName()).getDescribe()
-										.isCreateable()) {
+						if (v_fieldType.getDescribe().getName() != objectName && globalSObjectsMap.get(v_fieldType.getDescribe().getName()).getDescribe().isCreateable()) {
 							
-							sObject v_newObject = new WaveObject(v_fieldType.getDescribe().getName())
-									.insertSObjectRecord();
+							sObject v_newObject = new WaveObject(v_fieldType.getDescribe().getName()).insertSObjectRecord();
 							
 							this.sObjectMap.put(v_newObject.Id, v_newObject);
 							
@@ -136,10 +138,10 @@ public virtual class WaveObject {
 	}
 	
 	/**
-	*	@description TypeName must be a valid API name (i.e. custom objects should be suffixed with "__c"):
+	* @description TypeName must be a valid API name (i.e. custom objects should be suffixed with "__c")
 	*
-	*	@param p_typeName is sObject name.
-	*	@return sObject is created sObject.
+	* @param p_typeName is sObject name.
+	* @return sObject is created sObject.
 	*/
 	public SObject newSObject(String p_typeName) {
 		Schema.SObjectType v_targetType = globalSObjectsMap.get(p_typeName);
@@ -153,11 +155,11 @@ public virtual class WaveObject {
 	}
 	
 	/**
-	*	@description Add field value to sObject.
+	* @description Add field value to sObject.
 	*
-	*	@param p_name is a field name.
-	*	@param p_value is a field value.
-	*	@return WaveObject is a current class.
+	* @param p_name is a field name.
+	* @param p_value is a field value.
+	* @return WaveObject is a current class.
 	*/
 	public WaveObject addField(String p_name, Object p_value) {
 		//Enter object field from input parameters
@@ -167,10 +169,10 @@ public virtual class WaveObject {
 	}
 	
 	/**
-	*	@description Add field values to sObject.
+	* @description Add field values to sObject.
 	*
-	*	@param p_fieldValues is a map that consists of field values.
-	*	@return WaveObject is a current class.
+	* @param p_fieldValues is a map that consists of field values.
+	* @return WaveObject is a current class.
 	*/
 	public WaveObject addFields(Map<String, Object> p_fieldValues) {
 		for (String v_fieldName : p_fieldValues.keySet()) {
@@ -181,18 +183,18 @@ public virtual class WaveObject {
 	}
 	
 	/**
-	*	@description Return record after some actions.
+	* @description Return record after some actions.
 	*
-	*	@return WaveObject is a current class.
+	* @return WaveObject is a current class.
 	*/
 	public sObject getSObjectRecord() {
 		return this.record;
 	}
 	
 	/**
-	*	@description Insert and return record.
+	* @description Insert and return record.
 	*
-	*	@return WaveObject is a current class.
+	* @return WaveObject is a current class.
 	*/
 	public sObject insertSObjectRecord() {
 		//Try to insert record and return
@@ -207,10 +209,10 @@ public virtual class WaveObject {
 	}
 	
 	/**
-	*	@description Get a parent record of creating sObject.
+	* @description Get a parent record of creating sObject.
 	*
-	*	@param p_relationship is name of relationship of parent object.
-	*	@return sObject is parent object from current object;
+	* @param p_relationship is name of relationship of parent object.
+	* @return sObject is parent object from current object;
 	*/
 	public sObject getParentSObject(String p_relationship) {
 		String v_objectName = record.getSObjectType().getDescribe().getName();
@@ -220,11 +222,10 @@ public virtual class WaveObject {
 	}
 	
 	/**
-	*	@description Get a parent record of object by input id value.
-	*
-	*	@param p_objectId is parent object id;
-	*	@param p_relationship is name of relationship of parent object.
-	*	@return sObject is parent object from current object;
+	* @description Get a parent record of object by input id value.
+	* @param p_objectId is parent object id;
+	* @param p_relationship is name of relationship of parent object.
+	* @return sObject is parent object from current object;
 	*/
 	public sObject getParentSObject(Id p_objectId, String p_relationship) {
 		//
@@ -240,25 +241,21 @@ public virtual class WaveObject {
 	}
 	
 	/**
-	*	@description Get sObject parent record by relationship value.
-	*
-	*	@param p_objectName is name of object that parent record we will return.
-	*	@param p_relationship is name of relationship for getting parent record.
-	*	@return sObject is parent record.
+	* @description Get sObject parent record by relationship value.
+	* @param p_objectName is name of object that parent record we will return.
+	* @param p_relationship is name of relationship for getting parent record.
+	* @return sObject is parent record.
 	*/
 	private sObject getsObject(String p_objectName, String p_relationship) {
 		if (globalSObjectsMap.containsKey(p_objectName)) {
-			Map <String, Schema.SObjectField> v_fieldMap = globalSObjectsMap.get(p_objectName).
-					getDescribe().fields.getMap();
-			
-			//
+			Map <String, Schema.SObjectField> v_fieldMap = globalSObjectsMap.get(p_objectName).getDescribe().fields.getMap();
 			Schema.SObjectField v_field = v_fieldMap.get(p_relationship);
+			
 			if (v_field != null && ! v_field.getDescribe().getReferenceTo().isEmpty()) {
 				String v_parentId = String.valueOf(record.get(v_field.getDescribe().getName()));
 				return sObjectMap.get(v_parentId);
 			} else if (v_field == null) {
-				throw new UtilsException(p_relationship + ' field is not exists for ' + 
-						p_objectName + ' object.');
+				throw new UtilsException(p_relationship + ' field is not exists for ' + p_objectName + ' object.');
 			} else if (v_field.getDescribe().getReferenceTo().isEmpty()) {
 				throw new UtilsException(p_relationship + ' field is not lookup field type.');
 			}
@@ -267,6 +264,9 @@ public virtual class WaveObject {
 		return null;
 	}
 	
+	/**
+	* @description Custom Exception class
+	*/
 	public class UtilsException extends Exception {
 	}
 }
