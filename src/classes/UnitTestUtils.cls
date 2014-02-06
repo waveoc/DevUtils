@@ -6,7 +6,7 @@
 public class UnitTestUtils {
 	private static Map<String, Schema.SObjectType> globalSObjectsMap = Schema.getGlobalDescribe();
 	
-	private WaveObject obj;
+	private UnitObject obj;
 	
 	/**
 	* @description Create and return Account record.
@@ -147,7 +147,7 @@ public class UnitTestUtils {
 	* @param p_objectName is name of object.
 	* @return UnitTestUtils is current class.
 	*/
-	public WaveObject createRecord(String p_objectName) {
+	public UnitObject createRecord(String p_objectName) {
 		if (p_objectName == 'Account') {
 			return new WaveAccount();
 		} else if (p_objectName == 'Opportunity') {
@@ -163,14 +163,14 @@ public class UnitTestUtils {
 		} else if (p_objectName == 'Product2') {
 			return new WaveProduct2();
 		} else {
-			return new WaveObject(p_objectName);
+			return new UnitObject(p_objectName);
 		}
 	}
 	
 	/**
-	* @description Extend class from WaveObject for Account object
+	* @description Extend class from UnitObject for Account object
 	*/
-	public class WaveAccount extends WaveObject {
+	public class WaveAccount extends UnitObject {
 		public WaveAccount() {
 			super('Account');
 		}
@@ -189,9 +189,9 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	* @description Extend class from WaveObject for Opportunity object
+	* @description Extend class from UnitObject for Opportunity object
 	*/
-	public class WaveOpportunity extends WaveObject {
+	public class WaveOpportunity extends UnitObject {
 		public WaveOpportunity() {
 			super('Opportunity');
 		}
@@ -210,11 +210,12 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	* @description Extend class from WaveObject for Contact object
+	* @description Extend class from UnitObject for Contact object
 	*/
-	public class WaveContact extends WaveObject {
+	public class WaveContact extends UnitObject {
 		public WaveContact() {
-			super('Contact');
+		
+		super('Contact');
 		}
 		
 		public WaveContact(Map<String, Object> p_fieldValueMap) {
@@ -231,11 +232,12 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	* @description Extend class from WaveObject for Lead object
+	* @description Extend class from UnitObject for Lead object
 	*/
-	public class WaveLead extends WaveObject {
+	public class WaveLead extends UnitObject {
 		public WaveLead() {
-			super('Lead');
+		
+		super('Lead');
 		}
 		
 		public WaveLead(Map<String, Object> p_fieldValueMap) {
@@ -252,11 +254,12 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	* @description Extend class from WaveObject for Case object
+	* @description Extend class from UnitObject for Case object
 	*/
-	public class WaveCase extends WaveObject {
+	public class WaveCase extends UnitObject {
 		public WaveCase() {
-			super('Case');
+		
+		super('Case');
 		}
 		
 		public WaveCase(Map<String, Object> p_fieldValueMap) {
@@ -273,11 +276,12 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	* @description Extend class from WaveObject for Contract object
+	* @description Extend class from UnitObject for Contract object
 	*/
-	public class WaveContract extends WaveObject {
+	public class WaveContract extends UnitObject {
 		public WaveContract() {
-			super('Contract');
+		
+		super('Contract');
 		}
 		
 		public WaveContract(Map<String, Object> p_fieldValueMap) {
@@ -294,11 +298,12 @@ public class UnitTestUtils {
 	}
 	
 	/**
-	* @description Extend class from WaveObject for Product2 object
+	* @description Extend class from UnitObject for Product2 object
 	*/
-	public class WaveProduct2 extends WaveObject {
+	public class WaveProduct2 extends UnitObject {
 		public WaveProduct2() {
-			super('Product2');
+		
+		super('Product2');
 		}
 		
 		public WaveProduct2(Map<String, Object> p_fieldValueMap) {

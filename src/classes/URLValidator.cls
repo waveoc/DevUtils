@@ -124,10 +124,10 @@ public with sharing class URLValidator {
 	/**
 	* @description Create a UrlValidator with default properties.
 	*/
-	public UrlValidator() {
+	private UrlValidator() {
 		this(new List<String>());
 	}
-
+	
 	/**
 	* @description Behavior of validation is modified by passing in several strings options:
 	* @param schemes Pass in one or more url schemes to consider valid, passing in
@@ -191,6 +191,7 @@ public with sharing class URLValidator {
 			if (p_schemes == null) {
 				p_schemes = DEFAULT_SCHEMES;
 			}
+			
 			this.allowedSchemes = new Set<String>();
 			this.allowedSchemes.addAll(p_schemes);
 		}

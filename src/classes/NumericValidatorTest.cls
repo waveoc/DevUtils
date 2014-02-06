@@ -11,11 +11,9 @@ private class NumericValidatorTest {
 		
 		NumericValidator v_numeric = NumericValidator.getInstance();
 		
-		Decimal d = 12.3423;
+		Decimal d = 11.123456;
 		d.setScale(2);
-		//System.assert(false, '----' + d);
-		
-		System.assert(false, '------' + v_numeric.validate('dssd11.123456', '##.##').toDecimal());
+		System.assertEquals(d, v_numeric.validate('dssd11.123456', '##.##').toDecimal());
 		
 		Test.stopTest();
 	}
