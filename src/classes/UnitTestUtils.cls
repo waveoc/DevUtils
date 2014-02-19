@@ -171,18 +171,39 @@ public class UnitTestUtils {
 	* @description Extend class from UnitObject for Account object
 	*/
 	public class WaveAccount extends UnitObject {
+	
+		/**
+		* @description Default constructor
+		*/
 		public WaveAccount() {
 			super('Account');
 		}
 		
+		/**
+		* @description Constructor with fields-values
+		*
+		* @param p_fieldValueMap is map with fields and value for them.
+		*/
 		public WaveAccount(Map<String, Object> p_fieldValueMap) {
 			super('Account', p_fieldValueMap);
 		}
 		
+		return filled records with all required fields and fields-values from constructor)
+		
+		/**
+		* @description Receive filled account
+		*
+		* @return Filled account record with all required fields and with all fields received from constructor.
+		*/
 		public Account getRecord() {
 			return (Account)super.getSObjectRecord();
 		}
 		
+		/**
+		* @description Create filled account record
+		*
+		* @return Filled account record with all required fields and with all fields received from constructor.
+		*/
 		public Account insertRecord() {
 			return (Account)super.insertSObjectRecord();
 		}
@@ -192,18 +213,36 @@ public class UnitTestUtils {
 	* @description Extend class from UnitObject for Opportunity object
 	*/
 	public class WaveOpportunity extends UnitObject {
+		/**
+		* @description Default constructor
+		*/
 		public WaveOpportunity() {
 			super('Opportunity');
 		}
 		
+		/**
+		* @description Constructor with fields-values
+		*
+		* @param p_fieldValueMap is map with fields and value for them.
+		*/
 		public WaveOpportunity(Map<String, Object> p_fieldValueMap) {
 			super('Opportunity', p_fieldValueMap);
 		}
 		
+		/**
+		* @description Receive filled opportunity
+		*
+		* @return Filled opportunity record with all required fields and with all fields received from constructor.
+		*/
 		public Opportunity getRecord() {
 			return (Opportunity)super.getSObjectRecord();
 		}
 		
+		/**
+		* @description Create filled account opportunity
+		*
+		* @return Filled opportunity record with all required fields and with all fields received from constructor.
+		*/
 		public Opportunity insertRecord() {
 			return (Opportunity)super.insertSObjectRecord();
 		}
@@ -213,19 +252,37 @@ public class UnitTestUtils {
 	* @description Extend class from UnitObject for Contact object
 	*/
 	public class WaveContact extends UnitObject {
+	
+		/**
+		* @description Default constructor
+		*/
 		public WaveContact() {
-		
-		super('Contact');
+			super('Contact');
 		}
 		
+		/**
+		* @description Constructor with fields-values
+		*
+		* @param p_fieldValueMap is map with fields and value for them.
+		*/
 		public WaveContact(Map<String, Object> p_fieldValueMap) {
 			super('Contact', p_fieldValueMap);
 		}
 		
+		/**
+		* @description Receive filled contact
+		*
+		* @return Filled contact record with all required fields and with all fields received from constructor.
+		*/
 		public Contact getRecord() {
 			return (Contact)super.getSObjectRecord();
 		}
 		
+		/**
+		* @description Create filled contact record
+		*
+		* @return Filled contact record with all required fields and with all fields received from constructor.
+		*/
 		public Contact insertRecord() {
 			return (Contact)super.insertSObjectRecord();
 		}
@@ -235,19 +292,36 @@ public class UnitTestUtils {
 	* @description Extend class from UnitObject for Lead object
 	*/
 	public class WaveLead extends UnitObject {
+		/**
+		* @description Default constructor
+		*/
 		public WaveLead() {
-		
-		super('Lead');
+			super('Lead');
 		}
 		
+		/**
+		* @description Constructor with fields-values
+		*
+		* @param p_fieldValueMap is map with fields and value for them.
+		*/
 		public WaveLead(Map<String, Object> p_fieldValueMap) {
 			super('Lead', p_fieldValueMap);
 		}
 		
+		/**
+		* @description Receive filled lead
+		*
+		* @return Filled lead record with all required fields and with all fields received from constructor.
+		*/
 		public Lead getRecord() {
 			return (Lead)super.getSObjectRecord();
 		}
 		
+		/**
+		* @description Create filled lead record
+		*
+		* @return Filled lead record with all required fields and with all fields received from constructor.
+		*/
 		public Lead insertRecord() {
 			return (Lead)super.insertSObjectRecord();
 		}
@@ -257,19 +331,37 @@ public class UnitTestUtils {
 	* @description Extend class from UnitObject for Case object
 	*/
 	public class WaveCase extends UnitObject {
-		public WaveCase() {
-		
-		super('Case');
+	
+		/**
+		* @description Default constructor
+		*/
+		public WaveCase() {	
+			super('Case');
 		}
 		
+		/**
+		* @description Constructor with fields-values
+		*
+		* @param p_fieldValueMap is map with fields and value for them.
+		*/
 		public WaveCase(Map<String, Object> p_fieldValueMap) {
 			super('Case', p_fieldValueMap);
 		}
 		
+		/**
+		* @description Receive filled case
+		*
+		* @return Filled case record with all required fields and with all fields received from constructor.
+		*/
 		public Case getRecord() {
 			return (Case)super.getSObjectRecord();
 		}
 		
+		/**
+		* @description Create filled lead record
+		*
+		* @return Filled lead record with all required fields and with all fields received from constructor.
+		*/
 		public Case insertRecord() {
 			return (Case)super.insertSObjectRecord();
 		}
@@ -279,19 +371,36 @@ public class UnitTestUtils {
 	* @description Extend class from UnitObject for Contract object
 	*/
 	public class WaveContract extends UnitObject {
+		/**
+		* @description Default constructor
+		*/
 		public WaveContract() {
-		
-		super('Contract');
+			super('Contract');
 		}
 		
+		/**
+		* @description Constructor with fields-values
+		*
+		* @param p_fieldValueMap is map with fields and value for them.
+		*/
 		public WaveContract(Map<String, Object> p_fieldValueMap) {
 			super('Contract', p_fieldValueMap);
 		}
 		
+		/**
+		* @description Receive filled contract
+		*
+		* @return Filled contract record with all required fields and with all fields received from constructor.
+		*/
 		public Contract getRecord() {
 			return (Contract)super.getSObjectRecord();
 		}
 		
+		/**
+		* @description Create filled account contract
+		*
+		* @return Filled contract record with all required fields and with all fields received from constructor.
+		*/
 		public Contract insertRecord() {
 			return (Contract)super.insertSObjectRecord();
 		}
@@ -301,19 +410,36 @@ public class UnitTestUtils {
 	* @description Extend class from UnitObject for Product2 object
 	*/
 	public class WaveProduct2 extends UnitObject {
+		/**
+		* @description Default constructor
+		*/
 		public WaveProduct2() {
-		
-		super('Product2');
+			super('Product2');
 		}
 		
+		/**
+		* @description Constructor with fields-values
+		*
+		* @param p_fieldValueMap is map with fields and value for them.
+		*/
 		public WaveProduct2(Map<String, Object> p_fieldValueMap) {
 			super('Product2', p_fieldValueMap);
 		}
 		
+		/**
+		* @description Receive filled product
+		*
+		* @return Filled product record with all required fields and with all fields received from constructor.
+		*/
 		public Product2 getRecord() {
 			return (Product2)super.getSObjectRecord();
 		}
 		
+		/**
+		* @description Create filled product record
+		*
+		* @return Filled product record with all required fields and with all fields received from constructor.
+		*/
 		public Product2 insertRecord() {
 			return (Product2)super.insertSObjectRecord();
 		}
