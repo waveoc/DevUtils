@@ -188,8 +188,6 @@ public class UnitTestUtils {
 			super('Account', p_fieldValueMap);
 		}
 		
-		return filled records with all required fields and fields-values from constructor)
-		
 		/**
 		* @description Receive filled account
 		*
