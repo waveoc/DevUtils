@@ -1,15 +1,17 @@
-1.	Validator utils
+# 1.	Validator utils
 
-Description:
+**Description:**
+
 Integrity of the data is one of the key problems when it is being received electronically or from user input.
 The appropriate checks for integrity are always repetitive and rather complicated. And current package is created to solve related with validation rules issues and to increase the speed of development process as well.
 
-Features:
+**Features:**
+
 Our Team has created “Validator” library that provides reusable "primitive" validation methods.
 These methods have a set of common validation methods (email addresses, URLs, etc.) that could help in creating pluggable actions.
 Our library is adapted for Salesforce version of Apache commons validator (Java language) library.
 
-How to use (samples)
+**How to use (samples)**
 
 		DomainValidator:
 			DomainValidator.getInstance().isValid('apache.org'); // return true,  domain 'apache.org' is valid.
@@ -53,20 +55,25 @@ How to use (samples)
 				UrlValidator urlValidator = new UrlValidator();
 				urlValidator.isValid("ftp://foo.bar.com/"); // return true, url is valid
 
-2. UnitTest utils
+# 2. UnitTest utils
 
-Description:
+**Description:**
+
 Most of Salesforce developer effort is usually connected with creating Unit tests. Acceptable test coverage index starts from 75% (to be able to deploy to Production environment) – this value is not high enough, but nevertheless it guarantees that code is stable.
 
-Features:
+**Features:**
+
 Our Team gathered utility methods that reduce time that is usually spent by developers on unit tests creation. These methods create objects (standard and custom) with pre-populated data.
 All the required and master details fields are being populated by default. In addition, developer can fill in other specific fields with necessary data.
 	
-How to use (sample).
-Additional information: We have 1 custom object (Order) with 2 master details: Opportunity and Case.
+**How to use (sample).**
+
+Additional information: 
+	We have 1 custom object (Order) with 2 master details: Opportunity and Case.
+	
 Apex class - is created to implement a part of business logic. Developer should create unit tests to cover this class (no less than 75% coverage).
 
-public with sharing class TestController {
+		public with sharing class TestController {
 		
 			private Order__c orderObject;
 			private String oId;
@@ -97,7 +104,7 @@ public with sharing class TestController {
 				}
 			}
 		}
-
+		
 Test class #1 - tests for Apex class (92% coverage). These tests were created without using our library.
 
 		@isTest
@@ -136,7 +143,7 @@ Test class #1 - tests for Apex class (92% coverage). These tests were created wi
 
 		}
 
-	Test class #2 - tests for Apex class (92% coverage). These tests were created with using our library.
+Test class #2 - tests for Apex class (92% coverage). These tests were created with using our library.
 
 		@isTest
 		public with sharing class TestControllerTest {			
@@ -155,6 +162,6 @@ Test class #1 - tests for Apex class (92% coverage). These tests were created wi
 			}
 		}
 		
-As a result:
+# As a result:
 	- Code amount reduction
 	- Time spent on development reduction
