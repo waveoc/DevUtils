@@ -25,13 +25,15 @@ private class URLValidatorTest {
 	private static void testValidScheme() {
 		Test.startTest();
 		
-		URLValidator v_validator = new URLValidator(new List<String>());
+		URLValidator v_validator = new URLValidator(new List<String> {'https', 'http'});
 		
 		System.assert( ! v_validator.isValidScheme(null));
 		
-		System.assert( ! v_validator.isValidScheme('фв'));
+		System.assert( ! v_validator.isValidScheme('ф'));
 		
 		System.assert( ! v_validator.isValidScheme('h'));
+		
+		System.assert( ! v_validator.isValidScheme('ftp'));
 		
 		Test.stopTest();
 	}
