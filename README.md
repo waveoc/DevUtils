@@ -63,10 +63,8 @@ Our Team gathered utility methods that reduce time that is usually spent by deve
 All the required and master details fields are being populated by default. In addition, developer can fill in other specific fields with necessary data.
 	
 How to use (sample).
-
-	Additional information: We have 1 custom object (Order) with 2 master details: Opportunity and Case.
-
-	Apex class - is created to implement a part of business logic. Developer should create unit tests to cover this class (no less than 75% coverage).
+Additional information: We have 1 custom object (Order) with 2 master details: Opportunity and Case.
+Apex class - is created to implement a part of business logic. Developer should create unit tests to cover this class (no less than 75% coverage).
 
 public with sharing class TestController {
 		
@@ -100,7 +98,7 @@ public with sharing class TestController {
 			}
 		}
 
-	Test class #1 - tests for Apex class (92% coverage). These tests were created without using our library.
+Test class #1 - tests for Apex class (92% coverage). These tests were created without using our library.
 
 		@isTest
 		public with sharing class TestControllerTest {
