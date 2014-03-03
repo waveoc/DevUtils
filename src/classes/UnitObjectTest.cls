@@ -11,7 +11,7 @@ private class UnitObjectTest {
 		
 		sObject v_object;
 		try {
-			v_object = new UnitObject('Account').insertSObjectRecord();
+			v_object = new UnitObject('Account').addField('Name', 'Test Account').insertSObjectRecord();
 		} catch(Exception ex) {
 			System.assert(false, ex.getMessage());
 		}
@@ -27,7 +27,7 @@ private class UnitObjectTest {
 		
 		sObject v_object;
 		try {
-			v_object = new UnitObject(Account.getSObjectType()).insertSObjectRecord();
+			v_object = new UnitObject(Account.getSObjectType(), true).insertSObjectRecord();
 		} catch(Exception ex) {
 			System.assert(false, ex.getMessage());
 		}
@@ -47,7 +47,7 @@ private class UnitObjectTest {
 			'AccountNumber' => '12345'
 		};
 		try {
-			v_object = new UnitObject('Account', v_fieldValueMap).insertSObjectRecord();
+			v_object = new UnitObject('Account', v_fieldValueMap, false).insertSObjectRecord();
 		} catch(Exception ex) {
 			System.assert(false, ex.getMessage());
 		}
@@ -99,7 +99,7 @@ private class UnitObjectTest {
 		
 		sObject v_object;
 		try {
-			v_object = new UnitObject('Contact').getParentSObject('OwnerId');
+			v_object = new UnitObject('Contact', true).getParentSObject('OwnerId');
 		} catch(Exception ex) {
 			System.assert(false, ex.getMessage());
 		}
@@ -174,7 +174,7 @@ private class UnitObjectTest {
 		
 		sObject v_object;
 		try {
-			v_object = new UnitObject('Opportunity').getSObjectRecord();
+			v_object = new UnitObject('Opportunity', true).getSObjectRecord();
 			
 			insert v_object;
 		} catch(Exception ex) {
@@ -194,7 +194,7 @@ private class UnitObjectTest {
 		
 		sObject v_object;
 		try {
-			v_object = new UnitObject('Lead').insertSObjectRecord();
+			v_object = new UnitObject('Lead', true).insertSObjectRecord();
 		} catch(Exception ex) {
 			System.assert(false, ex.getMessage());
 		}
@@ -211,7 +211,7 @@ private class UnitObjectTest {
 		
 		sObject v_object;
 		try {
-			v_object = new UnitObject('User').getSObjectRecord();
+			v_object = new UnitObject('User', true).getSObjectRecord();
 		} catch(Exception ex) {
 			System.assert(false, ex.getMessage());
 		}
@@ -229,7 +229,7 @@ private class UnitObjectTest {
 		sObject v_object;
 		Boolean v_throwException = false;
 		try {
-			v_object = new UnitObject('Profile').insertSObjectRecord();
+			v_object = new UnitObject('Profile', true).insertSObjectRecord();
 		} catch(Exception ex) {
 			v_throwException = true;
 		}

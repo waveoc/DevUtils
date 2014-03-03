@@ -1,3 +1,7 @@
+# Links
+Full API documentation: http://dev-woc.cs6.force.com/apollodoc
+Main page: http://dev-woc.cs6.force.com/apollo
+
 # 1.	Validator utils
 
 **Description:**
@@ -64,7 +68,7 @@ Most of Salesforce developer effort is usually connected with creating Unit test
 **Features:**
 
 Our Team gathered utility methods that reduce time that is usually spent by developers on unit tests creation. These methods create objects (standard and custom) with pre-populated data.
-All the required and master details fields are being populated by default. In addition, developer can fill in other specific fields with necessary data.
+All none required and none lookup fields are being populated by default. In addition, developer can fill in other specific fields with necessary data.
 	
 **How to use (sample).**
 
