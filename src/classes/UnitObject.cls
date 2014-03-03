@@ -28,12 +28,23 @@ public virtual class UnitObject {
 	
 	/**
 	* @description Constructor with name of object. 
-	* Create a record of this object with all require fields.
+	* Create a record of this object with all required fields.
 	*
 	* @param p_objectName is name of object.
 	*/
 	public UnitObject(String p_objectName) {
-		this(p_objectName, new Map<String, Object>());
+		this(p_objectName, new Map<String, Object>(), false);
+	}
+	
+	/**
+	* @description Constructor with name of object. 
+	* Create a record of this object with all required or all fields (depending on p_isRequiredOnly flag).
+	*
+	* @param p_objectName is name of object.
+	* @param p_isRequiredOnly is flag that allows fill all(none required and none lookup) fields
+	*/
+	public UnitObject(String p_objectName, Boolean p_isRequiredOnly) {
+		this(p_objectName, new Map<String, Object>(), p_isRequiredOnly);
 	}
 	
 	/**
@@ -42,8 +53,8 @@ public virtual class UnitObject {
 	*
 	* @param p_sObjectType is name of object in SObjectType format.
 	*/
-	public UnitObject(Schema.SObjectType p_sObjectType) {
-		this(p_sObjectType.getDescribe().getName(), new Map<String, Object>());
+	public UnitObject(Schema.SObjectType p_sObjectType, Boolean p_isRequiredOnly) {
+		this(p_sObjectType.getDescribe().getName(), new Map<String, Object>(), p_isRequiredOnly);
 	}
 	
 	/**
@@ -52,85 +63,83 @@ public virtual class UnitObject {
 	* @param p_sObjectType is name of object in SObjectType format.
 	* @param p_fieldValues is map with field values.
 	*/
-	public UnitObject(String p_objectName, Map<String, Object> p_fieldValues) {
+	public UnitObject(String p_objectName, Map<String, Object> p_fieldValues, Boolean p_isRequiredOnly) {
 		sObjectMap = new Map<String, sObject>();
 		objectName = p_objectName;
 		record = newSObject(p_objectName);
-	
-		for (Schema.SObjectField v_field : globalSObjectsMap.get(p_objectName).getDescribe().fields.getMap().values()) {
+		
+		List<Schema.SObjectField> v_fields = new List<Schema.SObjectField>();
+		try {
+			v_fields = globalSObjectsMap.get(p_objectName).getDescribe().fields.getMap().values();
+		} catch(Exception ex) {
+			throw new UtilsException('This sObject \'' + p_objectName + '\' doesn\'t contains in database.');
+		}
+		
+		for (Schema.SObjectField v_field : v_fields) {
 			//Craete an all require fields
 			Schema.DescribeFieldResult v_resultDescribe = v_field.getDescribe();
 			
-			if ( ! v_resultDescribe.isNillable() && v_resultDescribe.isCreateable()) {
-				//Set default value
-				if (v_resultDescribe.getName() == 'Status' && objectName == 'Contract') {
-					record.put(v_resultDescribe.getName(), 'Draft');
-				} else if (v_resultDescribe.getName() == 'isConverted' && objectName == 'Lead') {
-					record.put(v_resultDescribe.getName(), false);
-				} else if (String.valueOf(v_resultDescribe.getType()) == 'PICKLIST') {
-					for (Schema.PicklistEntry pEntry : v_resultDescribe.getPicklistValues()) {
-						if (pEntry.isActive()) {
-							record.put(v_resultDescribe.getName(), pEntry.getValue());
-							
-							break;
-						}
-					}
-				} else {
-					Object v_defaultFieldValue = defaultFieldValueMap.get(String.valueOf(v_resultDescribe.getType()));
-					record.put(v_resultDescribe.getName(), v_defaultFieldValue);
+			
+			if (p_isRequiredOnly) {
+				//Set default field value
+				if ( ! v_resultDescribe.isNillable() && v_resultDescribe.isCreateable()) {
+					record = setDefaultFieldValue(v_resultDescribe, record);
 				}
-			}
-			
-			//Create an all master-details fields
-			if ( ! v_resultDescribe.getReferenceTo().isEmpty() && v_resultDescribe.isCreateable() && 
-				! v_resultDescribe.isNillable()) {
-			
-				for (Schema.SObjectType v_fieldType : v_resultDescribe.getReferenceTo()) {
-					String v_objectReferenceName = v_fieldType.getDescribe().getName();
-					
-					if (v_objectReferenceName == 'User') {
-						record.put(v_resultDescribe.getName(), UserInfo.getUserId());
+				
+				//Create an all master-details fields
+				if ( ! v_resultDescribe.getReferenceTo().isEmpty() && v_resultDescribe.isCreateable() && 
+					! v_resultDescribe.isNillable()) {
+				
+					for (Schema.SObjectType v_fieldType : v_resultDescribe.getReferenceTo()) {
+						String v_objectReferenceName = v_fieldType.getDescribe().getName();
 						
-						User v_currentUser = [
-								SELECT Name 
-								FROM User 
-								WHERE Id = :UserInfo.getUserId() 
-								LIMIT 1];
-						
-						this.sObjectMap.put(UserInfo.getUserId(), v_currentUser);
-					} else if (v_objectReferenceName == 'Profile') {
-						record.put(v_resultDescribe.getName(), UserInfo.getProfileId());
-						
-						Profile v_currentProfile = [
-								SELECT Name 
-								FROM Profile 
-								WHERE Id = :UserInfo.getProfileId() 
-								LIMIT 1];
-						
-						this.sObjectMap.put(UserInfo.getProfileId(), v_currentProfile);
-					} else if (v_objectReferenceName == 'Group') {
-						List<Group> v_groups = [SELECT Id FROM Group LIMIT 1];
-						
-						if ( ! v_groups.isEmpty()) {
-							record.put(v_resultDescribe.getName(), v_groups.get(0).Id);
+						if (v_objectReferenceName == 'User') {
+							record.put(v_resultDescribe.getName(), UserInfo.getUserId());
 							
-							this.sObjectMap.put(v_groups.get(0).Id, v_groups.get(0));
+							User v_currentUser = [
+									SELECT Name 
+									FROM User 
+									WHERE Id = :UserInfo.getUserId() 
+									LIMIT 1];
+							
+							this.sObjectMap.put(UserInfo.getUserId(), v_currentUser);
+						} else if (v_objectReferenceName == 'Profile') {
+							record.put(v_resultDescribe.getName(), UserInfo.getProfileId());
+							
+							Profile v_currentProfile = [
+									SELECT Name 
+									FROM Profile 
+									WHERE Id = :UserInfo.getProfileId() 
+									LIMIT 1];
+							
+							this.sObjectMap.put(UserInfo.getProfileId(), v_currentProfile);
+						} else if (v_objectReferenceName == 'Group') {
+							try {
+								List<Group> v_groups = [SELECT Id FROM Group LIMIT 1];
+								
+								record.put(v_resultDescribe.getName(), v_groups.get(0).Id);
+								this.sObjectMap.put(v_groups.get(0).Id, v_groups.get(0));
+							} catch(Exception ex) {
+								throw new UtilsException('Group records do not exist in database.');
+							}
 						} else {
-							throw new UtilsException('Groups records are not consists in database.');
-						}
-					} else {
-						//Master-detail or require lookup
-						if (v_fieldType.getDescribe().getName() != objectName && 
-								globalSObjectsMap.get(v_fieldType.getDescribe().getName()).getDescribe().isCreateable()) {
-							
-							sObject v_newObject = new UnitObject(v_fieldType.getDescribe().getName()).insertSObjectRecord();
-							
-							this.sObjectMap.put(v_newObject.Id, v_newObject);
-							
-							record.put(v_resultDescribe.getName(), v_newObject.Id);
+							//Master-detail or require lookup
+							if (v_fieldType.getDescribe().getName() != objectName && 
+									globalSObjectsMap.get(v_fieldType.getDescribe().getName()).getDescribe().isCreateable()) {
+								
+								sObject v_newObject = new UnitObject(v_fieldType.getDescribe().getName()).insertSObjectRecord();
+								
+								this.sObjectMap.put(v_newObject.Id, v_newObject);
+								
+								record.put(v_resultDescribe.getName(), v_newObject.Id);
+							}
 						}
 					}
 				}
+			} else if (v_resultDescribe.getReferenceTo().isEmpty() && v_resultDescribe.isCreateable()) {
+					
+				//Set default field value
+				record = setDefaultFieldValue(v_resultDescribe, record);
 			}
 		}
 		
@@ -267,6 +276,35 @@ public virtual class UnitObject {
 		}
 		
 		return null;
+	}
+	
+	/**
+	* @description Set default field value by default map or active picklist values.
+	*
+	* @param p_resultDescribe Schema.DescribeFieldResult variable
+	* @param p_record sObject that we should fill.
+	*
+	* @return sObject that with populated input field.
+	*/
+	private sObject setDefaultFieldValue(Schema.DescribeFieldResult p_resultDescribe, sObject p_record) {
+		if (p_resultDescribe.getName() == 'Status' && objectName == 'Contract') {
+			p_record.put(p_resultDescribe.getName(), 'Draft');
+		} else if (p_resultDescribe.getName() == 'isConverted' && objectName == 'Lead') {
+			p_record.put(p_resultDescribe.getName(), false);
+		} else if (String.valueOf(p_resultDescribe.getType()) == 'PICKLIST') {
+			for (Schema.PicklistEntry pEntry : p_resultDescribe.getPicklistValues()) {
+				if (pEntry.isActive()) {
+					p_record.put(p_resultDescribe.getName(), pEntry.getValue());
+					
+					break;
+				}
+			}
+		} else {
+			Object v_defaultFieldValue = defaultFieldValueMap.get(String.valueOf(p_resultDescribe.getType()));
+			p_record.put(p_resultDescribe.getName(), v_defaultFieldValue);
+		}
+		
+		return p_record;
 	}
 	
 	/**
