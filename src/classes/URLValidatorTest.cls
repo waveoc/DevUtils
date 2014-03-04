@@ -16,7 +16,27 @@ private class URLValidatorTest {
 		
 		System.assert( ! v_validator.isValid('фв'));
 		
-		System.assert( ! v_validator.isValid('h'));
+		System.assert( ! v_validator.isValid('http:'));
+		
+		System.assert(v_validator.isValid('https://www.google.com'));
+		
+		System.assert(v_validator.isValid('http://google.com:8080'));
+		
+		System.assert( ! v_validator.isValid('http://google.com:1111111'));
+		
+		System.assert( ! v_validator.isValid('http://localhost'));
+		
+		System.assert(v_validator.isValid('http://google.com/1/2/2/3'));
+		
+		System.assert(v_validator.isValid('http://google.com:8080/index.html'));
+		
+		System.assert( ! v_validator.isValid('google.com'));
+		
+		System.assert( ! v_validator.isValid('http://googlecom'));
+		
+		System.assert( ! v_validator.isValid('www.google.com'));
+		
+		System.assert(v_validator.isValid('http://85.66.44.33:80'));
 		
 		Test.stopTest();
 	}
@@ -63,7 +83,7 @@ private class URLValidatorTest {
 		
 		System.assert( ! v_validator.isValidPath('фв'));
 		
-		System.assert( ! v_validator.isValidPath('h'));
+		//System.assert( ! v_validator.isValidPath('/docs/doc.html'));
 		
 		Test.stopTest();
 	}

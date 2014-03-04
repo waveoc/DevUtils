@@ -59,7 +59,7 @@ public with sharing class URLValidator {
 	/**
 	* @description Protocol (ie. http:, ftp:,https:).
 	*/
-	private static final String SCHEME_REGEX = '^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*';
+	private static final String SCHEME_REGEX = '\\p{Alpha}[\\p{Alnum}+-.]*';
 	private static final Pattern SCHEME_PATTERN = Pattern.compile(SCHEME_REGEX);
 
 	private static final String AUTHORITY_REGEX = '^([' + AUTHORITY_CHARS_REGEX + ']*)(:\\d*)?(.*)?';
@@ -188,7 +188,7 @@ public with sharing class URLValidator {
 		if (isOn(ALLOW_ALL_SCHEMES)) {
 			this.allowedSchemes.clear();
 		} else {
-			if (p_schemes == null) {
+			if (p_schemes == null || p_schemes.isEmpty()) {
 				p_schemes = DEFAULT_SCHEMES;
 			}
 			
@@ -210,22 +210,23 @@ public with sharing class URLValidator {
 		if (p_value == null) {
 			return false;
 		}
-		
+		System.debug('---ASCII_PATTERN---');
 		if ( ! ASCII_PATTERN.matcher(p_value).matches()) {
 			return false;
 		}
-		
+		System.debug('---URL_PATTERN---');
 		// Check the whole url address structure
 		Matcher v_urlMatcher = URL_PATTERN.matcher(p_value);
+		//System.assert(false, '---0=' + v_urlMatcher.group(0) + '---1=' + v_urlMatcher.group(1) + '---2=' + v_urlMatcher.group(2) + '---3=' + v_urlMatcher.group(3) + '---4=' + v_urlMatcher.group(4));
 		if ( ! v_urlMatcher.matches()) {
 			return false;
 		}
-		
+		System.debug('---PARSE_URL_SCHEME---');
 		String v_scheme = v_urlMatcher.group(PARSE_URL_SCHEME);
 		if ( ! isValidScheme(v_scheme)) {
 			return false;
 		}
-		
+		System.debug('---PARSE_URL_AUTHORITY---');
 		String v_authority = v_urlMatcher.group(PARSE_URL_AUTHORITY);
 		if ('file'.equals(v_scheme) && ''.equals(v_authority)) {
 			// Special case - file: allows an empty authority
@@ -235,7 +236,7 @@ public with sharing class URLValidator {
 				return false;
 			}
 		}
-		
+		System.debug('---URL_PATTERN---');
 		if ( ! isValidPath(v_urlMatcher.group(PARSE_URL_PATH))) {
 			return false;
 		}
