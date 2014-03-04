@@ -59,7 +59,7 @@ public with sharing class URLValidator {
 	/**
 	* @description Protocol (ie. http:, ftp:,https:).
 	*/
-	private static final String SCHEME_REGEX = '^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*';
+	private static final String SCHEME_REGEX = '\\p{Alpha}[\\p{Alnum}+-.]*';
 	private static final Pattern SCHEME_PATTERN = Pattern.compile(SCHEME_REGEX);
 
 	private static final String AUTHORITY_REGEX = '^([' + AUTHORITY_CHARS_REGEX + ']*)(:\\d*)?(.*)?';
@@ -188,7 +188,7 @@ public with sharing class URLValidator {
 		if (isOn(ALLOW_ALL_SCHEMES)) {
 			this.allowedSchemes.clear();
 		} else {
-			if (p_schemes == null) {
+			if (p_schemes == null || p_schemes.isEmpty()) {
 				p_schemes = DEFAULT_SCHEMES;
 			}
 			
